@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 
 @plugin "tailwindcss-animate";
 
@@ -123,4 +125,13 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+body{
+  font-family: "Roboto", sans-serif;
+}
+
+/* hide scrollbar */
+::-webkit-scrollbar {
+  width: 0;
 }
