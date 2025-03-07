@@ -23,22 +23,12 @@ const data = {
     },
     {
       title: "Listings",
-      url: "/user/shop/all-products",
+      url: "/user/listing",
       icon: Bot,
-      items: [
-        {
-          title: "Manage Listings",
-          url: "/user/shop/products",
-        },
-        {
-          title: "Add Listing Item",
-          url: "/user/shop/category",
-        },
-      ],
     },
     {
       title: "Wish List",
-      url: "/user/wishlist",
+      url: "/user/wish",
       icon: Heart,
     },
     {

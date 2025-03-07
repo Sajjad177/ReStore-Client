@@ -39,31 +39,27 @@ export function NavMain({
       </SidebarGroupLabel>
 
       <SidebarMenu>
-        {items.map((item) => (
-          <Collapsible
-            key={item.title}
-            asChild
-            defaultOpen={item.isActive}
-            className="group/collapsible"
-          >
-            <SidebarMenuItem className="rounded-lg transition">
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton
-                  tooltip={item.title}
-                  className="flex items-center gap-3 px-3 py-2"
-                >
-                  {item.icon && <item.icon className="w-5 h-5 " />}
-                  <span className="flex-1 ">{item.title}</span>
+        {items.map((item) =>
+          item.items ? (
+            // If `items[]` exist, use a Collapsible dropdown
+            <Collapsible
+              key={item.title}
+              asChild
+              defaultOpen={item.isActive}
+              className="group/collapsible"
+            >
+              <SidebarMenuItem className="rounded-lg transition">
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuButton
+                    tooltip={item.title}
+                    className="flex items-center gap-3 px-3 py-2"
+                  >
+                    {item.icon && <item.icon className="w-5 h-5 " />}
+                    <span className="flex-1 ">{item.title}</span>
+                    <ChevronRight className="w-4 h-4 ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  </SidebarMenuButton>
+                </CollapsibleTrigger>
 
-                  {/* Conditionally Render ChevronRight Only If There Are Sub-Items */}
-                  {item.items && (
-                    <ChevronRight className="w-4 h-4  ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                  )}
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
-
-              {/* Render Submenu Only If `items` Exists */}
-              {item.items && (
                 <CollapsibleContent>
                   <SidebarMenuSub className="pl-8 space-y-2 border-l border-gray-700">
                     {item.items.map((subItem) => (
@@ -80,10 +76,23 @@ export function NavMain({
                     ))}
                   </SidebarMenuSub>
                 </CollapsibleContent>
-              )}
+              </SidebarMenuItem>
+            </Collapsible>
+          ) : (
+            // If `items[]` do not exist, show a normal clickable link
+            <SidebarMenuItem key={item.title} className="rounded-lg transition">
+              <SidebarMenuButton asChild>
+                <Link
+                  href={item.url}
+                  className="flex items-center gap-3 px-3 py-2 w-full"
+                >
+                  {item.icon && <item.icon className="w-5 h-5" />}
+                  <span className="flex-1">{item.title}</span>
+                </Link>
+              </SidebarMenuButton>
             </SidebarMenuItem>
-          </Collapsible>
-        ))}
+          )
+        )}
       </SidebarMenu>
     </SidebarGroup>
   );
