@@ -33,6 +33,7 @@ export const loginUser = async (userData: FieldValues) => {
       body: JSON.stringify(userData),
     });
     const result = await res.json();
+    // console.log(result);
     if (result.success) {
       (await cookies()).set("token", result.data.token);
     }
@@ -45,7 +46,6 @@ export const loginUser = async (userData: FieldValues) => {
 
 export const getCurrentUser = async () => {
   const token = (await cookies()).get("token");
-
   let decondedToken = null;
 
   if (token) {
