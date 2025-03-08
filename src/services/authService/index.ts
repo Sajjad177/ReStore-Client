@@ -56,6 +56,48 @@ export const getCurrentUser = async () => {
   }
 };
 
+export const getUserDetails = async (userId: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/users/${userId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: (await cookies()).get("token")!.value,
+        },
+      }
+    );
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const updateUserDetails = async (
+  userId: string,
+  userData: FieldValues
+) => {
+  try {
+    console.log(userData, "id -> ", userId);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/users/${userId}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: (await cookies()).get("token")!.value,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      }
+    );
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
 export const logoutUser = async () => {
   (await cookies()).delete("token");
 };

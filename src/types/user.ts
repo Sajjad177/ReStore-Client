@@ -5,4 +5,5 @@ export interface IUser {
   password: string;
   role: "admin" | "user";
   blocked: "ban" | "unban";
+  userId: string;
 }
