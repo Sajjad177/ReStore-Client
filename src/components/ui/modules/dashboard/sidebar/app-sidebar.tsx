@@ -50,11 +50,11 @@ const data = {
       url: "/user/dashboard/purchases-history",
       icon: BookOpenCheck,
     },
-    {
-      title: "Conversation",
-      url: "/messages",
-      icon: MessageCircle,
-    },
+    // {
+    //   title: "Conversation",
+    //   url: "/messages",
+    //   icon: MessageCircle,
+    // },
     {
       title: "Settings",
       url: "#",
