@@ -24,7 +24,6 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
     register,
     handleSubmit,
     setValue,
-    // watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -45,8 +44,8 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
 
   useEffect(() => {
     if (listingData) {
-      Object.keys(listingData).forEach((key) =>
-        setValue(key as keyof typeof listingData, listingData[key])
+      (Object.keys(listingData) as Array<keyof typeof listingData>).forEach(
+        (key) => setValue(key, listingData[key])
       );
     }
   }, [listingData, setValue]);
@@ -106,7 +105,9 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
             className="w-full mt-1 border rounded-md p-2"
           />
           {errors.title && (
-            <p className="text-red-500 text-sm">{errors.title.message}</p>
+            <p className="text-red-500 text-sm">
+              {String(errors.title.message)}
+            </p>
           )}
         </div>
 
@@ -120,7 +121,9 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
             className="w-full mt-1 border rounded-md p-2"
           />
           {errors.description && (
-            <p className="text-red-500 text-sm">{errors.description.message}</p>
+            <p className="text-red-500 text-sm">
+              {String(errors.description.message)}
+            </p>
           )}
         </div>
 
@@ -153,7 +156,9 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
             className="w-full mt-1 border rounded-md p-2"
           />
           {errors.price && (
-            <p className="text-red-500 text-sm">{errors.price.message}</p>
+            <p className="text-red-500 text-sm">
+              {String(errors.price.message)}
+            </p>
           )}
         </div>
 

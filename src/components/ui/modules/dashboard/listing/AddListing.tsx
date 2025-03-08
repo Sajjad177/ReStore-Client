@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import {
   Dialog,
   DialogContent,
@@ -25,6 +25,14 @@ import RSInput from "@/components/ui/core/coustomUI/RSInput";
 import { addListing } from "@/services/listing";
 import { toast } from "sonner";
 
+type FormValues = {
+  title: string;
+  description: string;
+  condition: string;
+  price: number;
+  image: File | null;
+};
+
 const AddListing = () => {
   const [image, setImage] = useState<string | null>(null);
   const {
@@ -32,12 +40,11 @@ const AddListing = () => {
     handleSubmit,
     setValue,
     reset,
-    // errors,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormValues>();
 
   // Handle Image Upload
-  const handleImageUpload = (event: React.ChangeEvent<HTMLRSInputElement>) => {
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       const imageUrl = URL.createObjectURL(file);
@@ -53,12 +60,17 @@ const AddListing = () => {
   };
 
   // Handle Form Submission
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
       const formData = new FormData();
 
-      formData.append("data", JSON.stringify(data));
-      formData.append("image", data.image);
+      formData.append("title", data.title);
+      formData.append("description", data.description);
+      formData.append("condition", data.condition);
+      formData.append("price", data.price.toString());
+      if (data.image) {
+        formData.append("image", data.image);
+      }
 
       const res = await addListing(formData);
       if (res.success) {
@@ -125,7 +137,10 @@ const AddListing = () => {
             {/* Condition */}
             <div>
               <Label className="font-semibold">Condition</Label>
-              <Select onValueChange={(value) => setValue("condition", value)}>
+              <Select
+                onValueChange={(value) => setValue("condition", value)}
+                defaultValue="new"
+              >
                 <SelectTrigger className="w-full border p-2 rounded-md mt-1">
                   <SelectValue placeholder="Select Condition" />
                 </SelectTrigger>
