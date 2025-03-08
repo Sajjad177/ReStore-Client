@@ -1,7 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { Bot, Heart, Settings, SquareTerminal } from "lucide-react";
+import {
+  BookOpenCheck,
+  ChartNoAxesCombined,
+  ClipboardList,
+  Heart,
+  MessageCircle,
+  Settings,
+  SquareTerminal,
+} from "lucide-react";
+
 import {
   Sidebar,
   SidebarContent,
@@ -23,13 +32,28 @@ const data = {
     },
     {
       title: "Listings",
-      url: "/user/listing",
-      icon: Bot,
+      url: "/user/dashboard/listing",
+      icon: ClipboardList,
     },
     {
       title: "Wish List",
-      url: "/user/wish",
+      url: "/user/dashboard/wish",
       icon: Heart,
+    },
+    {
+      title: "Sales-History",
+      url: "/user/dashboard/sales-history",
+      icon: ChartNoAxesCombined,
+    },
+    {
+      title: "Purchases-History",
+      url: "/user/dashboard/purchases-history",
+      icon: BookOpenCheck,
+    },
+    {
+      title: "Conversation",
+      url: "/messages",
+      icon: MessageCircle,
     },
     {
       title: "Settings",

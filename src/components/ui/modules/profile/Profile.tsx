@@ -52,11 +52,11 @@ const ProfileSection = () => {
             height={120}
             className="rounded-full border-4 border-gray-300"
           />
-          <CardTitle className="text-xl font-bold mt-3 flex gap-3 items-center">
+          <CardTitle className="text-3xl font-bold mt-3 flex gap-3 items-center">
             {userData?.name || "User Name"}
             <span className="text-gray-500 text-sm">({userData.role})</span>
           </CardTitle>
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-500 text-xl">
             {userData?.email || "No Email Provided"}
           </p>
         </CardHeader>
