@@ -71,7 +71,7 @@ const Navbar = () => {
               >
                 Logout
               </Button>
-              <Link href="/dashboard">
+              <Link href="/user/dashboard">
                 <Button className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-md px-6 shadow-md">
                   Dashboard
                 </Button>

@@ -15,14 +15,12 @@ const LoginPage = () => {
     handleSubmit,
     formState: { errors },
     reset,
-    
   } = useForm<FieldValues>();
-const router = useRouter();
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await loginUser(data);
-      console.log("login response -> ", res);
 
       if (res.success) {
         toast.success(res.message);

@@ -1,10 +1,16 @@
+import AllListing from "@/components/ui/modules/dashboard/listing";
+import AddListing from "@/components/ui/modules/dashboard/listing/AddListing";
+import { getAllListings } from "@/services/listing";
 
-const ListingPage = () => {
-    return (
-        <div>
-            this is listing page
-        </div>
-    );
+const ListingPage = async () => {
+  const { data } = await getAllListings();
+
+  return (
+    <div>
+      <AddListing />
+      <AllListing listings={data} />
+    </div>
+  );
 };
 
 export default ListingPage;
