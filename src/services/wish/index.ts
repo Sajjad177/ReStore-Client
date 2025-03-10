@@ -41,3 +41,20 @@ export const removeFromWishList = async (listingId: string) => {
     return Error(error);
   }
 };
+
+export const addToWishList = async (listingId: string) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/wish/add`, {
+      method: "POST",
+      headers: {
+        Authorization: (await cookies()).get("token")!.value,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ listings: [listingId] }),
+    });
+    revalidateTag("wishlists");
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};

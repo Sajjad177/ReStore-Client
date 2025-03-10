@@ -3,7 +3,7 @@
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
-export const getAllListings = async () => {
+export const getAvailableListings = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`, {
       next: {
@@ -14,6 +14,23 @@ export const getAllListings = async () => {
     return result;
   } catch (error: any) {
     return Error(error.message);
+  }
+};
+
+export const getAllListings = async () => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/all`,
+      {
+        next: {
+          tags: ["listings"],
+        },
+      }
+    );
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    return Error(error);
   }
 };
 

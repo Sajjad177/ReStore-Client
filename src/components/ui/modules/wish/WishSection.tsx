@@ -23,7 +23,7 @@ const WishSection = ({ wishListData }: { wishListData: any }) => {
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
         {wishListData?.data?.listings?.length > 0 ? (
-          wishListData?.data.listings.map((item: any) => (
+          wishListData?.data?.listings.map((item: any) => (
             <Card key={item._id} className="relative shadow-lg">
               <CardHeader className="p-3">
                 <Image

@@ -53,10 +53,10 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              href="/contact"
+              href="/listings"
               className="hover:text-emerald-500 transition-all"
             >
-              Contact
+              All Listings
             </Link>
           </li>
         </ul>

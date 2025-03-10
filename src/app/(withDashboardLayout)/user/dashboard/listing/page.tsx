@@ -1,9 +1,9 @@
 import AllListing from "@/components/ui/modules/dashboard/listing";
 import AddListing from "@/components/ui/modules/dashboard/listing/AddListing";
-import { getAllListings } from "@/services/listing";
+import { getAvailableListings } from "@/services/listing";
 
 const ListingPage = async () => {
-  const { data } = await getAllListings();
+  const { data } = await getAvailableListings();
 
   return (
     <div>

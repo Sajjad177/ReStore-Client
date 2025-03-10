@@ -6,6 +6,7 @@ import React from "react";
 const WishListPage = async () => {
   const user = await getCurrentUser();
   const data = await getWishList(user.userId!);
+  console.log(data);
 
 //   const wishList = data.data;
 
