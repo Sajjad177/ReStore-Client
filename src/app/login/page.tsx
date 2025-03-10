@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import RSInput from "@/components/ui/core/coustomUI/RSInput";
+import { useUser } from "@/context/UserContext";
 import { loginUser } from "@/services/authService";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,16 +18,18 @@ const LoginPage = () => {
     reset,
   } = useForm<FieldValues>();
   const router = useRouter();
+  const { setIsLoading, isLoading } = useUser();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await loginUser(data);
-
       if (res.success) {
         toast.success(res.message);
+        setIsLoading(true);
         router.push("/");
       } else {
         toast.error(res.message);
+        setIsLoading(false);
       }
 
       reset();
@@ -35,6 +38,12 @@ const LoginPage = () => {
       toast.error("Something went wrong");
     }
   };
+
+  if (isLoading) {
+    <div>
+      <p>User is creating........</p>
+    </div>;
+  }
 
   return (
     <div className="flex min-h-screen items-center border justify-center p-4">
