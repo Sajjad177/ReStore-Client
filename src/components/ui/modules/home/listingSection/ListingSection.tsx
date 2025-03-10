@@ -10,6 +10,7 @@ import Image from "next/image";
 import { Heart } from "lucide-react";
 import { addToWishList } from "@/services/wish";
 import { toast } from "sonner";
+import Link from "next/link";
 
 const conditions = ["new", "used"];
 
@@ -195,9 +196,11 @@ const ListingSection = ({ listings }: { listings: any[] }) => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm">Tk {listing.price}</p>
-                  <Button variant="default" className="mt-2 w-full">
-                    View Details
-                  </Button>
+                  <Link href={`/listings/${listing._id}`}>
+                    <Button variant="default" className="mt-2 w-full cursor-pointer">
+                      View Details
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             ))
