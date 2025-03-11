@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 export const getPaurchaseHistory = async (userId: string) => {
@@ -39,7 +40,7 @@ export const getSalersHistory = async (userId: string) => {
     );
     const result = await res.json();
     return result;
-  } catch (error) {
+  } catch (error: any) {
     return Error(error);
   }
 };
@@ -82,7 +83,49 @@ export const paymentVerification = async (order_id: string) => {
     );
     const result = await res.json();
     return result;
-  } catch (error:any) {
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const updateTransactionStatus = async (
+  transactionId: string,
+  status: string
+) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/transactions/${transactionId}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: (await cookies()).get("token")!.value,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status }),
+      }
+    );
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const deleteTransaction = async (transactionId: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/transactions/${transactionId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: (await cookies()).get("token")!.value,
+        },
+      }
+    );
+    revalidateTag("transactions");
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
     return Error(error);
   }
 };

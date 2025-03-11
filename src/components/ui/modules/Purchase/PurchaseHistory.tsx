@@ -54,7 +54,7 @@ const PurchaseHistory = ({ purchases }: { purchases: any[] }) => {
                   <TableCell>
                     <span
                       className={`px-2 py-1 rounded-md text-sm ${
-                        purchase.status === "sold"
+                        purchase.status === "completed"
                           ? "bg-green-200 text-green-700"
                           : "bg-yellow-200 text-yellow-700"
                       }`}

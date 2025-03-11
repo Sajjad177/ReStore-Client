@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import { paymentVerification } from "@/services/transaction";
 import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface Data {
   id: number;
@@ -67,7 +65,7 @@ const PaymentSuccess = () => {
           Array.isArray(response.data) &&
           response.data.length > 0
         ) {
-          setData(response.data[0]); // Extract first item
+          setData(response.data[0]);
         } else {
           setError("No payment data found.");
         }
