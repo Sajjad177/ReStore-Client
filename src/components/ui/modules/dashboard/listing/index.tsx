@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 
 const AllListing = ({ listings }: any) => {
+
   const handleDelete = async (listingId: any) => {
     try {
       const res = await deleteListing(listingId);
@@ -93,7 +94,7 @@ const AllListing = ({ listings }: any) => {
 
                   {/* Actions Column */}
                   <TableCell className="px-4 py-3 flex space-x-3">
-                    <Link href={`/user/listing/${listing._id}`}>
+                    <Link href={`/user/dashboard/listing/${listing._id}`}>
                       <button className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-md transition">
                         <Pencil className="w-5 h-5 cursor-pointer" />
                       </button>

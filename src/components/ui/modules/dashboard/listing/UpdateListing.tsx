@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 const UpdateListing = ({ listingData }: { listingData: any }) => {
+  console.log(listingData);
   const {
     register,
     handleSubmit,
@@ -33,6 +34,8 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
       price: listingData?.price || 0,
       status: listingData?.status || "",
       image: listingData?.image || "",
+      city: listingData?.city || "",
+      category: listingData?.category || "",
     },
   });
   const router = useRouter();
@@ -78,7 +81,7 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
 
       if (res.success) {
         toast.success(res.message);
-        router.push("/dashboard/listings");
+        router.push("/user/dashboard/listing");
       } else {
         toast.error(res.message || "Could not update listing");
       }
@@ -162,6 +165,22 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
           )}
         </div>
 
+        {/* City */}
+        <div>
+          <Label className="font-semibold">City</Label>
+          <Input
+            {...register("city", { required: "City is required" })}
+            type="text"
+            placeholder="Enter city"
+            className="w-full mt-1 border rounded-md p-2"
+          />
+          {errors.city && (
+            <p className="text-red-500 text-sm">
+              {String(errors.city.message)}
+            </p>
+          )}
+        </div>
+
         {/* Status */}
         <div>
           <Label className="font-semibold">Status</Label>
@@ -177,6 +196,34 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
               <SelectItem value="sold">Sold</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+
+        {/* Category */}
+        <div>
+          <Label className="font-semibold">Category</Label>
+          <Select
+            onValueChange={(value) => setValue("category", value)}
+            defaultValue="other"
+          >
+            <SelectTrigger className="w-full border p-2 rounded-md mt-1">
+              <SelectValue placeholder="Select Category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="clothing">Clothing</SelectItem>
+              <SelectItem value="electronics">Electronics</SelectItem>
+              <SelectItem value="furniture">Furniture</SelectItem>
+              <SelectItem value="books">Books</SelectItem>
+              <SelectItem value="home-appliances">Home-Appliances</SelectItem>
+              <SelectItem value="other">Other</SelectItem>
+            </SelectContent>
+          </Select>
+          <input
+            type="hidden"
+            {...register("category", { required: "Category is required" })}
+          />
+          {errors.category && (
+            <p className="text-red-500 text-sm">{String(errors.category.message)}</p>
+          )}
         </div>
 
         {/* Image Uploader */}

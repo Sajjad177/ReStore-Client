@@ -31,6 +31,8 @@ type FormValues = {
   condition: string;
   price: number;
   image: File | null;
+  category: string;
+  city: string;
 };
 
 const AddListing = () => {
@@ -64,10 +66,7 @@ const AddListing = () => {
     try {
       const formData = new FormData();
 
-      formData.append("title", data.title);
-      formData.append("description", data.description);
-      formData.append("condition", data.condition);
-      formData.append("price", data.price.toString());
+      formData.append("data", JSON.stringify(data));
       if (data.image) {
         formData.append("image", data.image);
       }
@@ -149,6 +148,39 @@ const AddListing = () => {
                   <SelectItem value="used">Used</SelectItem>
                 </SelectContent>
               </Select>
+              <input type="hidden" {...register("condition")} />
+            </div>
+
+            {/* Category */}
+            <div>
+              <Label className="font-semibold">Category</Label>
+              <Select
+                onValueChange={(value) => setValue("category", value)}
+                defaultValue=""
+              >
+                <SelectTrigger className="w-full border p-2 rounded-md mt-1">
+                  <SelectValue placeholder="Select Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="clothing">Clothing</SelectItem>
+                  <SelectItem value="electronics">Electronics</SelectItem>
+                  <SelectItem value="furniture">Furniture</SelectItem>
+                  <SelectItem value="books">Books</SelectItem>
+                  <SelectItem value="home-appliances">
+                    Home-Appliances
+                  </SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+              <input
+                type="hidden"
+                {...register("category", { required: "Category is required" })}
+              />
+              {errors.category && (
+                <p className="text-red-500 text-sm">
+                  {errors.category.message}
+                </p>
+              )}
             </div>
 
             {/* Price */}
@@ -165,6 +197,20 @@ const AddListing = () => {
               />
               {errors.price && (
                 <p className="text-red-500 text-sm">{errors.price.message}</p>
+              )}
+            </div>
+
+            {/* City */}
+            <div>
+              <Label className="font-semibold">City</Label>
+              <RSInput
+                {...register("city", { required: "City is required" })}
+                type="text"
+                placeholder="Enter city"
+                className="w-full mt-1 border rounded-md p-2"
+              />
+              {errors.city && (
+                <p className="text-red-500 text-sm">{errors.city.message}</p>
               )}
             </div>
 
@@ -187,11 +233,10 @@ const AddListing = () => {
                     objectFit="cover"
                     className="rounded-md"
                   />
-                  {/* Cancel Button */}
                   <button
                     type="button"
                     onClick={handleRemoveImage}
-                    className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition"
+                    className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 cursor-pointer hover:bg-red-600 transition"
                   >
                     <X className="h-4 w-4" />
                   </button>

@@ -9,6 +9,10 @@ export const getAvailableListings = async () => {
       next: {
         tags: ["listings"],
       },
+      method: "GET",
+      headers: {
+        Authorization: (await cookies()).get("token")!.value,
+      },
     });
     const result = await res.json();
     return result;

@@ -37,7 +37,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              href="/about"
+              href=""
               className="hover:text-emerald-500 transition-all"
             >
               About
@@ -45,7 +45,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              href="/services"
+              href=""
               className="hover:text-emerald-500 transition-all"
             >
               Services
