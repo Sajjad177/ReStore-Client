@@ -19,7 +19,6 @@ const ListingDetails = ({ listingData }: any) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
@@ -128,7 +127,7 @@ const ListingDetails = ({ listingData }: any) => {
                   />
                   {errors.name && (
                     <p className="text-red-500 text-sm">
-                      {errors.name.message}
+                      {String(errors.name.message)}
                     </p>
                   )}
 
@@ -142,7 +141,7 @@ const ListingDetails = ({ listingData }: any) => {
                   />
                   {errors.phone && (
                     <p className="text-red-500 text-sm">
-                      {errors.phone.message}
+                      {String(errors.phone.message)}
                     </p>
                   )}
 
@@ -156,7 +155,7 @@ const ListingDetails = ({ listingData }: any) => {
                   />
                   {errors.address && (
                     <p className="text-red-500 text-sm">
-                      {errors.address.message}
+                      {String(errors.address.message)}
                     </p>
                   )}
 
@@ -168,7 +167,7 @@ const ListingDetails = ({ listingData }: any) => {
                   />
                   {errors.city && (
                     <p className="text-red-500 text-sm">
-                      {errors.city.message}
+                      {String(errors.city.message)}
                     </p>
                   )}
 
@@ -182,7 +181,7 @@ const ListingDetails = ({ listingData }: any) => {
                   />
                   {errors.postalCode && (
                     <p className="text-red-500 text-sm">
-                      {errors.postalCode.message}
+                      {String(errors.postalCode.message)}
                     </p>
                   )}
 

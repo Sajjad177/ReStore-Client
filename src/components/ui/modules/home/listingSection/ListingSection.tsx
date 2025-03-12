@@ -197,7 +197,10 @@ const ListingSection = ({ listings }: { listings: any[] }) => {
                 <CardContent>
                   <p className="text-sm">Tk {listing.price}</p>
                   <Link href={`/listings/${listing._id}`}>
-                    <Button variant="default" className="mt-2 w-full cursor-pointer">
+                    <Button
+                      variant="default"
+                      className="mt-2 w-full cursor-pointer bg-emerald-500"
+                    >
                       View Details
                     </Button>
                   </Link>

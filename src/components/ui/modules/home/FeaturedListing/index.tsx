@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const FeaturedListing = async () => {
   const { data } = await getAllListings();
-  const featuredListings = data.slice(0, 6); // Get only the first 6 listings
+  const featuredListings = data?.slice(0, 6);
 
   return (
     <div className="p-6 rounded-lg">
@@ -13,7 +13,7 @@ const FeaturedListing = async () => {
         Featured Listings
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {featuredListings.map((listing: any) => (
+        {featuredListings?.map((listing: any) => (
           <div key={listing._id} className="bg-white p-4 rounded-lg shadow-md">
             <Image
               src={listing.image}
@@ -24,6 +24,14 @@ const FeaturedListing = async () => {
             />
             <h3 className="text-lg font-semibold">{listing.title}</h3>
             <p className="text-gray-600">${listing.price}</p>
+            <Link href={`/listings/${listing._id}`}>
+              <Button
+                variant="default"
+                className="mt-2 w-full cursor-pointer bg-emerald-500"
+              >
+                View Details
+              </Button>
+            </Link>
           </div>
         ))}
       </div>

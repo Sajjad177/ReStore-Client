@@ -30,7 +30,6 @@ const ProfileSection = () => {
     fetchUserData();
   }, [user?.userId]);
 
-  console.log(userData);
 
   if (loading)
     return (
@@ -54,7 +53,7 @@ const ProfileSection = () => {
           />
           <CardTitle className="text-3xl font-bold mt-3 flex gap-3 items-center">
             {userData?.name || "User Name"}
-            <span className="text-gray-500 text-sm">({userData.role})</span>
+            <span className="text-gray-500 text-sm">({userData?.role})</span>
           </CardTitle>
           <p className="text-gray-500 text-xl">
             {userData?.email || "No Email Provided"}
@@ -66,7 +65,7 @@ const ProfileSection = () => {
               📞 {userData?.phoneNo || "No Phone Number Available"}
             </p>
             <Link href={`/profile/${user?.userId}`}>
-              <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 py-2 rounded-md">
+              <Button className="w-full bg-emerald-500 text-white hover:bg-emerald-700 py-2 rounded-md cursor-pointer">
                 Edit Profile
               </Button>
             </Link>

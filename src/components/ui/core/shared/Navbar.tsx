@@ -1,12 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import { useUser } from "@/context/UserContext";
 import { logoutUser } from "@/services/authService";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 const Navbar = () => {
   const { user, setIsLoading, setUser } = useUser();
@@ -16,6 +22,7 @@ const Navbar = () => {
     await logoutUser();
     setIsLoading(true);
     setUser(null);
+    setIsOpen(false); // Close menu on logout
   };
 
   return (
@@ -37,7 +44,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              href=""
+              href="/about"
               className="hover:text-emerald-500 transition-all"
             >
               About
@@ -45,7 +52,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              href=""
+              href="/services"
               className="hover:text-emerald-500 transition-all"
             >
               Services
@@ -67,19 +74,19 @@ const Navbar = () => {
             <>
               <Button
                 onClick={handleLogout}
-                className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-md px-6 shadow-md"
+                className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-md px-6 shadow-md cursor-pointer"
               >
                 Logout
               </Button>
               <Link href="/user/dashboard">
-                <Button className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-md px-6 shadow-md">
+                <Button className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-md px-6 shadow-md cursor-pointer">
                   Dashboard
                 </Button>
               </Link>
             </>
           ) : (
             <Link href="/login">
-              <Button className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-md px-6 shadow-md">
+              <Button className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-md px-6 shadow-md cursor-pointer">
                 Login
               </Button>
             </Link>
@@ -94,7 +101,7 @@ const Navbar = () => {
                 variant="ghost"
                 className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800"
               >
-                <Menu className="h-6 w-6 text-gray-700 dark:text-gray-200" />
+                <Menu className="h-6 w-6 text-gray-700 dark:text-gray-200 cursor-pointer" />
               </Button>
             </SheetTrigger>
 
@@ -102,6 +109,11 @@ const Navbar = () => {
               side="left"
               className="w-64 bg-white dark:bg-gray-900 p-6 rounded-r-lg shadow-lg"
             >
+              {/* Required for Accessibility */}
+              <VisuallyHidden>
+                <SheetTitle>Menu</SheetTitle>
+              </VisuallyHidden>
+
               <nav className="flex flex-col space-y-6 mt-6">
                 <Link
                   href="/"
@@ -131,6 +143,7 @@ const Navbar = () => {
                 >
                   Contact
                 </Link>
+
                 {user ? (
                   <>
                     <Button
@@ -139,15 +152,18 @@ const Navbar = () => {
                     >
                       Logout
                     </Button>
-                    <Link href="/dashboard" onClick={() => setIsOpen(false)}>
-                      <Button className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-md mt-4 shadow-md">
+                    <Link
+                      href="/user/dashboard"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <Button className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-md mt-4 shadow-md cursor-pointer">
                         Dashboard
                       </Button>
                     </Link>
                   </>
                 ) : (
                   <Link href="/login" onClick={() => setIsOpen(false)}>
-                    <Button className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-md mt-4 shadow-md">
+                    <Button className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-md mt-4 shadow-md cursor-pointer">
                       Login
                     </Button>
                   </Link>

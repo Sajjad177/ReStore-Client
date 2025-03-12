@@ -115,7 +115,7 @@ const UpdateProfileSection = ({ profileData }: { profileData: FormData }) => {
                 value={newPassword}
                 onChange={(e) => {
                   setNewPassword(e.target.value);
-                  setValue("password", e.target.value); 
+                  setValue("password", e.target.value);
                 }}
                 type="password"
                 placeholder="Enter new password (optional)"
@@ -127,7 +127,7 @@ const UpdateProfileSection = ({ profileData }: { profileData: FormData }) => {
             <div className="flex justify-end mt-6">
               <Button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+                className="w-full bg-emerald-500 text-white py-2 rounded-lg hover:bg-emerald-600 transition cursor-pointer"
               >
                 Update Profile
               </Button>
