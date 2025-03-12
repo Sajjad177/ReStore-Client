@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import RSInput from "@/components/ui/core/coustomUI/RSInput";
 import { registerUser } from "@/services/authService";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import {
   AiOutlineUser,
@@ -20,14 +21,15 @@ const RegisterPage = () => {
     formState: { errors },
     reset,
   } = useForm<FieldValues>();
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await registerUser(data);
-      console.log("register response -> ", res);
 
       if (res.success) {
         toast.success(res.message);
+        router.push("/login");
       } else {
         toast.error(res.message);
       }
@@ -50,7 +52,7 @@ const RegisterPage = () => {
             To keep connected with us please login with your personal info
           </p>
           <Link href="/login">
-            <button className="mt-4 w-32 rounded-full px-4 py-2 text-white border-2 border-white hover:bg-white hover:text-emerald-500 transition duration-300 ease-in-out">
+            <button className="mt-4 w-32 rounded-full px-4 py-2 text-white border-2 border-white hover:bg-white hover:text-emerald-500 transition duration-300 ease-in-out cursor-pointer">
               LOGIN
             </button>
           </Link>
@@ -138,7 +140,7 @@ const RegisterPage = () => {
                 <div className="flex justify-center mt-6">
                   <Button
                     type="submit"
-                    className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-full px-8"
+                    className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-full px-8 cursor-pointer"
                   >
                     Register
                   </Button>

@@ -14,16 +14,29 @@ import Image from "next/image";
 import { addTransaction } from "@/services/transaction";
 import { useUser } from "@/context/UserContext";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation"; // Import useRouter for navigation
 
-const ListingDetails = ({ listingData }: any) => {
+interface ListingData {
+  _id: string;
+  title: string;
+  description: string;
+  price: number;
+  condition: string;
+  status: string;
+  city: string;
+  image: string;
+  userID: { _id: string };
+}
+
+const ListingDetails = ({ listingData }: { listingData: ListingData }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const isSold = listingData.status.toLowerCase() === "sold";
+  const router = useRouter();
   const { user } = useUser();
+  const isSold = listingData?.status.toLowerCase() === "sold";
 
   // Handle form submission
   const onSubmit: SubmitHandler<any> = async (data) => {
@@ -52,14 +65,21 @@ const ListingDetails = ({ listingData }: any) => {
     }
   };
 
+  // Handle Buy Now Click
+  const handleBuyNowClick = () => {
+    if (!user) {
+      router.push("/login"); 
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-white shadow-lg rounded-lg p-6">
         {/* Left Side: Image */}
         <div className="relative">
           <Image
-            src={listingData.image}
-            alt={listingData.title}
+            src={listingData?.image}
+            alt={listingData?.title}
             width={600}
             height={400}
             className="w-full h-auto rounded-lg shadow-md object-cover"
@@ -69,18 +89,18 @@ const ListingDetails = ({ listingData }: any) => {
         {/* Right Side: Details */}
         <div className="space-y-5">
           <h2 className="text-3xl font-bold text-gray-800">
-            {listingData.title}
+            {listingData?.title}
           </h2>
-          <p className="text-gray-600 text-lg">{listingData.description}</p>
+          <p className="text-gray-600 text-lg">{listingData?.description}</p>
           <p className="text-xl font-semibold text-gray-700">
             Price:{" "}
-            <span className="text-green-600">Tk {listingData.price}</span>
+            <span className="text-green-600">Tk {listingData?.price}</span>
           </p>
 
           <div className="flex flex-wrap gap-4">
             <p className="bg-gray-200 px-4 py-2 rounded-md">
               <span className="font-semibold">Condition:</span>{" "}
-              {listingData.condition}
+              {listingData?.condition}
             </p>
             <p
               className={`px-4 py-2 rounded-md ${
@@ -88,11 +108,11 @@ const ListingDetails = ({ listingData }: any) => {
               }`}
             >
               <span className="font-semibold">Status:</span>{" "}
-              {listingData.status}
+              {listingData?.status}
             </p>
           </div>
 
-          <p className="text-gray-500">📍 Location: {listingData.city}</p>
+          <p className="text-gray-500">📍 Location: {listingData?.city}</p>
 
           {/* Buy Now Button & Modal */}
           <Dialog>
@@ -102,14 +122,15 @@ const ListingDetails = ({ listingData }: any) => {
                 className={`w-80 text-white font-semibold text-lg py-3 ${
                   isSold
                     ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700"
+                    : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
                 }`}
                 disabled={isSold}
+                onClick={handleBuyNowClick} // Redirects to login if no user
               >
                 Buy Now
               </Button>
             </DialogTrigger>
-            {!isSold && (
+            {!isSold && user && (
               <DialogContent className="max-w-md rounded-lg">
                 <DialogHeader>
                   <DialogTitle className="text-xl font-bold">

@@ -26,7 +26,7 @@ const LoginPage = () => {
       if (res.success) {
         toast.success(res.message);
         setIsLoading(true);
-        router.push("/");
+        router.push("/user/dashboard");
       } else {
         toast.error(res.message);
         setIsLoading(false);
@@ -90,7 +90,7 @@ const LoginPage = () => {
                 </div>
 
                 <div className="flex justify-center mt-6">
-                  <Button className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-full px-8">
+                  <Button className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-full px-8 cursor-pointer">
                     LOGIN
                   </Button>
                 </div>
@@ -105,7 +105,7 @@ const LoginPage = () => {
           <h1 className="text-3xl md:text-4xl font-bold mt-4">Welcome Back!</h1>
           <p className="text-sm mt-2 text-center">{`DON'T HAVE AN ACCOUNT ?`}</p>
           <Link href="/register">
-            <button className="mt-4 w-32 rounded-full px-4 py-2 text-white border-2 border-white hover:bg-white hover:text-emerald-500 transition duration-300 ease-in-out">
+            <button className="mt-4 w-32 rounded-full px-4 py-2 text-white border-2 border-white hover:bg-white hover:text-emerald-500 transition duration-300 ease-in-out cursor-pointer">
               REGISTER
             </button>
           </Link>

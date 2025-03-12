@@ -19,8 +19,23 @@ import { updateListing } from "@/services/listing";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-const UpdateListing = ({ listingData }: { listingData: any }) => {
-  console.log(listingData);
+interface UpdateListingFormProps {
+  _id: string;
+  title: string;
+  description: string;
+  condition: string;
+  price: number;
+  status: string;
+  image: File | null;
+  city: string;
+  category: string;
+}
+
+const UpdateListing = ({
+  listingData,
+}: {
+  listingData: UpdateListingFormProps;
+}) => {
   const {
     register,
     handleSubmit,
@@ -33,40 +48,50 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
       condition: listingData?.condition || "",
       price: listingData?.price || 0,
       status: listingData?.status || "",
-      image: listingData?.image || "",
       city: listingData?.city || "",
       category: listingData?.category || "",
     },
   });
+
   const router = useRouter();
 
   // State for Image Preview
   const [imagePreview, setImagePreview] = useState<string | null>(
+    listingData?.image instanceof File
+      ? URL.createObjectURL(listingData.image)
+      : null
+  );
+  const [imageFile, setImageFile] = useState<File | null>(
     listingData?.image || null
   );
 
-  useEffect(() => {
-    if (listingData) {
-      (Object.keys(listingData) as Array<keyof typeof listingData>).forEach(
-        (key) => setValue(key, listingData[key])
-      );
-    }
-  }, [listingData, setValue]);
+useEffect(() => {
+  if (listingData) {
+    Object.keys(listingData).forEach((key) => {
+      if (key !== "_id" && key !== "image") {
+        setValue(
+          key as keyof Omit<UpdateListingFormProps, "_id" | "image">,
+          listingData[key as keyof UpdateListingFormProps] as any
+        );
+      }
+    });
+  }
+}, [listingData, setValue]);
+
 
   // Handle Image Upload
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      const imageUrl = URL.createObjectURL(file);
-      setImagePreview(imageUrl);
-      setValue("image", file);
+      setImagePreview(URL.createObjectURL(file));
+      setImageFile(file);
     }
   };
 
   // Remove Image
   const handleRemoveImage = () => {
     setImagePreview(null);
-    setValue("image", null);
+    setImageFile(null);
   };
 
   // Handle Form Submission
@@ -74,8 +99,17 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
     try {
       const formData = new FormData();
 
-      formData.append("data", JSON.stringify(data));
-      formData.append("image", data.image);
+      formData.append("title", data.title);
+      formData.append("description", data.description);
+      formData.append("condition", data.condition);
+      formData.append("price", data.price);
+      formData.append("status", data.status);
+      formData.append("city", data.city);
+      formData.append("category", data.category);
+
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
 
       const res = await updateListing(listingData._id, formData);
 
@@ -135,7 +169,7 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
           <Label className="font-semibold">Condition</Label>
           <Select
             onValueChange={(value) => setValue("condition", value)}
-            defaultValue={listingData?.condition || "new"}
+            defaultValue={listingData?.condition}
           >
             <SelectTrigger className="w-full border p-2 rounded-md mt-1">
               <SelectValue placeholder="Select Condition" />
@@ -171,58 +205,12 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
           <Input
             {...register("city", { required: "City is required" })}
             type="text"
-            placeholder="Enter city"
             className="w-full mt-1 border rounded-md p-2"
           />
           {errors.city && (
             <p className="text-red-500 text-sm">
               {String(errors.city.message)}
             </p>
-          )}
-        </div>
-
-        {/* Status */}
-        <div>
-          <Label className="font-semibold">Status</Label>
-          <Select
-            onValueChange={(value) => setValue("status", value)}
-            defaultValue={listingData?.status || "available"}
-          >
-            <SelectTrigger className="w-full border p-2 rounded-md mt-1">
-              <SelectValue placeholder="Select Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="available">Available</SelectItem>
-              <SelectItem value="sold">Sold</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Category */}
-        <div>
-          <Label className="font-semibold">Category</Label>
-          <Select
-            onValueChange={(value) => setValue("category", value)}
-            defaultValue="other"
-          >
-            <SelectTrigger className="w-full border p-2 rounded-md mt-1">
-              <SelectValue placeholder="Select Category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="clothing">Clothing</SelectItem>
-              <SelectItem value="electronics">Electronics</SelectItem>
-              <SelectItem value="furniture">Furniture</SelectItem>
-              <SelectItem value="books">Books</SelectItem>
-              <SelectItem value="home-appliances">Home-Appliances</SelectItem>
-              <SelectItem value="other">Other</SelectItem>
-            </SelectContent>
-          </Select>
-          <input
-            type="hidden"
-            {...register("category", { required: "Category is required" })}
-          />
-          {errors.category && (
-            <p className="text-red-500 text-sm">{String(errors.category.message)}</p>
           )}
         </div>
 
@@ -235,7 +223,6 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
             onChange={handleImageUpload}
             className="w-full mt-1 border p-2 rounded-md"
           />
-
           {imagePreview && (
             <div className="relative mt-2 w-full h-40 border rounded-md overflow-hidden">
               <Image
@@ -245,7 +232,6 @@ const UpdateListing = ({ listingData }: { listingData: any }) => {
                 objectFit="cover"
                 className="rounded-md"
               />
-              {/* Remove Image Button */}
               <button
                 type="button"
                 onClick={handleRemoveImage}

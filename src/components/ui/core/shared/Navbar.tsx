@@ -22,7 +22,10 @@ const Navbar = () => {
     await logoutUser();
     setIsLoading(true);
     setUser(null);
-    setIsOpen(false); // Close menu on logout
+    setIsOpen(false);
+
+    
+
   };
 
   return (

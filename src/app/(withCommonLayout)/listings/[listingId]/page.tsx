@@ -4,7 +4,7 @@ import { getSingleListing } from "@/services/listing";
 const ListingDetailsPage = async ({
   params,
 }: {
-  params: { listingId: string };
+  params: Promise<{ listingId: string }>;
 }) => {
   const { listingId } = await params;
   const { data } = await getSingleListing(listingId);

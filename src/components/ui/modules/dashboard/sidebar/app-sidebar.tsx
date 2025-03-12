@@ -6,7 +6,6 @@ import {
   ChartNoAxesCombined,
   ClipboardList,
   Heart,
-  MessageCircle,
   Settings,
   SquareTerminal,
 } from "lucide-react";
@@ -50,11 +49,6 @@ const data = {
       url: "/user/dashboard/purchases-history",
       icon: BookOpenCheck,
     },
-    // {
-    //   title: "Conversation",
-    //   url: "/messages",
-    //   icon: MessageCircle,
-    // },
     {
       title: "Settings",
       url: "#",
